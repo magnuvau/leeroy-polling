@@ -9,7 +9,7 @@ APP_TOKEN=<token>
 
 while true
 do
-	echo "$(date +%Y-%m-%d:%H:%M:%S)" > log.txt
+	echo "$(date +%Y-%m-%d:%H:%M)" > log.txt
 	while IFS= read -r repository
 	do
 		REPO=$(echo $repository | cut -d ':' -f 1)
@@ -19,10 +19,10 @@ do
 		if [ $SKIP_HASH != $LATEST_HASH ]; then
 			echo "Build $REPO:$LATEST_HASH" >> log.txt
 			sed -i "s/$SKIP_HASH/$LATEST_HASH/" repositories.list
-			echo "curl -X POST $JENKINS_URL/job/$NAME/build --user $JENKINS_USER:$API_TOKEN"
+			curl -X POST $JENKINS_URL/job/$NAME/build --user $JENKINS_USER:$API_TOKEN
 		else
 			echo "No changes for $REPO" >> log.txt
 		fi
 	done < repositories.list
-	sleep 30s
+	sleep 60s
 done
