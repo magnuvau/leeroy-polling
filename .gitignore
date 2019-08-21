@@ -1,0 +1,5 @@
+killme.pid
+log.txt
+.DS_Store
+.idea
+*.iml
